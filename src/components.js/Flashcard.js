@@ -1,13 +1,18 @@
 import { useState } from "react"
 import styled from "styled-components"
+import acertou from "../assets/icone_certo.png"
+import quase from "../assets/icone_quase.png"
+import errou from "../assets/icone_erro.png"
 import seta from "../assets/seta_play.png"
 import virar from "../assets/seta_virar.png"
 
 
-export default function Flashcard({c ,i}){
+export default function Flashcard({c ,i , flashConcluido}){
     const [viraPergunta, setViraPergunta] = useState(false) // inicio o jogo
     const [viraResposta, setViraResposta] = useState(false) // virou a carta
     const [finalizado, setFinalizado] = useState(false)
+    const [correcao, setCorrecao] = useState("")
+    const colors = {verde: "#2FBE34" , amarelo: "#FF922E" , vermelho:"#FF3030" , preto:"#333333"} 
 
     function abrePergunta(){
         if(!finalizado){
@@ -19,18 +24,34 @@ export default function Flashcard({c ,i}){
         setViraResposta(true)
     }
 
-    function respostaPergunta(){
+    function pegaIcones(){
+        switch(correcao){
+            case "errou":
+                return errou
+            case "quase":
+                return quase
+            case "acertou":
+                return acertou
+            default:
+                return seta
+        }
+    }
+
+
+    function respostaPergunta(status){
         setViraPergunta(false)
         setFinalizado(true)
+        setCorrecao(status)
+        flashConcluido()
     }
 
     return (
             <>
             {!viraPergunta ? (
-                    <Card> 
+                    <Card correcao={correcao} colors={colors}> 
                         <p>{"Pergunta " + (i + 1)}</p>
                         <button>
-                        <img onClick={abrePergunta} src={seta}/>
+                        <img onClick={abrePergunta} src={pegaIcones()}alt="icone-pergunta"/>
                         </button>
                     </Card>
             ) : 
@@ -39,15 +60,15 @@ export default function Flashcard({c ,i}){
                     {!viraResposta ? (
                         <>
                     {c.question}
-                    <img onClick={abreResposta} src={virar}/>
+                    <img onClick={abreResposta} src={virar} alt="icone-virar"/>
                     </>
                     ) : (
                     <>
                 {c.answer} 
                 <ContainerButton>
-                    <button onClick={respostaPergunta}>Não Lembrei</button>
-                    <button onClick={respostaPergunta}>Quase não lembrei</button>
-                    <button onClick={respostaPergunta}>Zap!</button>
+                    <Botao cor={colors.vermelho} onClick={() => respostaPergunta("errou")}>Não Lembrei</Botao>
+                    <Botao cor={colors.amarelo} onClick={() => respostaPergunta("quase")}>Quase não lembrei</Botao>
+                    <Botao cor={colors.verde} onClick={() => respostaPergunta("acertou")}>Zap!</Botao>
                 </ContainerButton>
                     </>
                     )
@@ -72,10 +93,23 @@ padding: 22px;
 display: flex;
 justify-content: space-between;
 p{
-    color: #333333;
     font-family: 'Recursive';
     font-weight: 700;
-    color: #333333;
+    color: ${props => { 
+        switch(props.correcao) {    
+            case "errou":
+                return props.colors.vermelho
+            case "quase":
+                return props.colors.amarelo
+            case "acertou":
+                return props.colors.verde
+            default:
+                return props.colors.preto
+
+        }
+    }
+    };
+    text-decoration: ${props => props.correcao === "" ? "none" : "line-through"};
     font-size: 16px;
 }
 button{
@@ -110,7 +144,9 @@ const ContainerButton = styled.div`
 display: flex;
 width: 280px;
 justify-content: space-between;
-button{
+`
+
+const Botao = styled.button`
     width: 85px;
     height: 37px;
     display: flex;
@@ -121,7 +157,7 @@ button{
     justify-content: center;
     text-align: center;
     border-radius: 5px;
-    background-color: red;
+    background-color: ${(props) => props.cor};
     border: none;
-}
+    color: #FFFFFF;
 `

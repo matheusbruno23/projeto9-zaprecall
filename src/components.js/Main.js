@@ -9,6 +9,10 @@ import { useState } from "react"
 export default function Main(){
     const [contador, setContador] = useState(0)
 
+    function flashConcluido(){
+        setContador(contador +1)
+    }
+
     return(
         <>
         <MidMenu>
@@ -16,6 +20,7 @@ export default function Main(){
             <Flashcard key={c.answer}
                 i={i} 
                 c={c}
+                flashConcluido={flashConcluido}
              />
             )}
         </MidMenu>
