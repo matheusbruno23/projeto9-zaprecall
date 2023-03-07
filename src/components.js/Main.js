@@ -1,59 +1,37 @@
 import styled from "styled-components"
 import cards from '../cards'
-import seta from "../assets/seta_play.png"
+import Flashcard from "./Flashcard"
+import Bottom from "./Bottom"
+import { useState } from "react"
+
+
 
 export default function Main(){
+    const [contador, setContador] = useState(0)
+
     return(
+        <>
         <MidMenu>
-            <Pergunta/>
+            {cards.map((c, i)=>
+            <Flashcard key={c.answer}
+                i={i} 
+                c={c}
+             />
+            )}
         </MidMenu>
+        <Bottom NumPerguntas={cards.length} contador={contador}/>
+        </>
     )
 }
 
-
-function Pergunta(){
-    return(
-        cards.map((c) => 
-            <CardQuestion>
-               <p>{c.question}</p>
-               <button>
-                <img src={seta}/>
-               </button>
-            </CardQuestion>)
-
-    )
-
-}
 
 const MidMenu = styled.div`
 width: 100%;
-height: 600px;
+height: 100%;
 display: flex;
 flex-direction: column;
 align-items: center;
+margin-bottom: 100px;
 `
 
-const CardQuestion = styled.div`
-width: 300px;
-height: 65px;
-background-color: #FFFFFF;
-border-radius: 5px;
-box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
-margin-top: 25px;
-box-sizing: border-box;
-padding: 22px;
-display: flex;
-justify-content: space-between;
 
-p{
-    color: #333333;
-    font-family: 'Recursive';
-    font-weight: 700;
-    color: #333333;
-    font-size: 16px;
-}
-button{
-    border: none;
-}
-
-`

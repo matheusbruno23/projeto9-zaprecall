@@ -1,22 +1,12 @@
 import styled from "styled-components"
 
-export default function Bottom(){
+export default function Bottom({NumPerguntas , contador}){
     return(
         <MenuInferior>
-            <Contador/>
+            <h1>{contador}/{NumPerguntas} CONCLUÍDOS</h1>
         </MenuInferior>
     )
 }
-
-function Contador(){
-    return(
-        <div>
-            <h1>0/4 CONCLUÍDOS</h1>
-        </div>
-
-    )
-}
-
 
 const MenuInferior = styled.div`
 position: fixed;

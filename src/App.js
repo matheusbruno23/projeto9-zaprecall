@@ -4,12 +4,12 @@ import Bottom from './components.js/Bottom';
 import Main from './components.js/Main';
 import Top from './components.js/Top';
 function App() {
+
   return (
     <div className="App">
       <Container>
       <Top/>
-      <Main/>
-      <Bottom/>
+      <Main />
       </Container>
     </div>
   );
@@ -18,7 +18,7 @@ function App() {
 
 const Container = styled.div`
 width: 375px;
-height: 600px;
+height: 100%;
 background-color: #FB6B6B;
 margin: auto;
 position: relative;

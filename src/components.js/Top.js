@@ -19,7 +19,7 @@ justify-content: space-evenly;
 box-sizing: border-box;
 font-family: 'Righteous';
 font-style: normal;
-padding: 40px;
+padding: 30px 20px 0px 20px;
 img{
     width: 52px;
 }
